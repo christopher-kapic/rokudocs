@@ -1,13 +1,11 @@
 ParentalControlPinPad
-ParentalControlPinPad is a variant of the PinPad component, although it does have a few key differences: The pin, pinLength, and secureMode fields are made private (i.e., not accessible to BrightScript, and secureMode set to true).
-
+ParentalControlPinPad is a variant of the PinPad component , although it does have a few key differences: The pin, pinLength, and secureMode fields are made private (i.e., not accessible to BrightScript, and secureMode set to true).
 There are two use cases for the ParentalControlPinPad node:
-
 If the user enters the correct pin, a 2-hour override of content blocking starts, similar to the system behavior on RokuTV
 If the user enters an incorrect PIN, the text fields are cleared automatically
+
 Fields
 ParentalControlPinPad includes a new field, pinSuccess for blocking content:
-
 Field	Type	Default	Description
 pin	string	""	Contains the string of numbers that have been entered.
 pinLength	integer	4	Contains the maximum number of digits that can be entered
@@ -24,4 +22,3 @@ focusBitmapUri	string	""	Specifies the URI of an image file to be loaded to repl
 showPinDisplay	boolean	true	Specifies whether or not the pin display that shows the entered digits is visible. In most cases, it is desirable to display the entered digits so that the user can see the string as it is entered. In some cases though, you might want to only show the keyboard part of the PinPad node.
 
 In those cases, the pinfield of the node will still contain the string entered by the user, so that it can displayed in some different manner.
-

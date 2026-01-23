@@ -1,11 +1,10 @@
 ButtonGroup
 Extends LayoutGroup
-
 The ButtonGroup node class manages the layout, visual attributes, and focus management of a vertical list of Button nodes. When the ButtonGroup node has focus, it sets the key focus on a single one of its child Button nodes.
-
 The buttons can be easily created using default button appearances by setting the buttons field to an array of strings containing the labels for each button.
 A single observer can watch for any of the Button nodes in the group to be selected by observing the buttonSelected field.
 By default, Button nodes added to the group will have the default button appearance. Several fields exist that allow you to change an attribute of the appearance of all Button nodes in the group.
+
 Fields
 Field	Type	Default	Access Permission	Description
 textColor	color	0xffffffff	READ_WRITE	Specifies the button label color for all unfocused Button nodes in the group. Only set to override the system default
@@ -24,5 +23,6 @@ buttonSelected	integer	0	READ_ONLY	Set to the index of the selected button whene
 buttonFocused	integer	0	READ_ONLY	Set to the index of the focused button whenever a button in the group receives the key focus
 focusButton	integer	0	WRITE_ONLY	Causes the button with the specified index to receive the focus when the ButtonGroup node has the key focus. Note that if the ButtonGroup node does not have the key focus when the focusButton field is set, the specified button will display the focus "footprint" as its background
 buttons	array of strings	[ ]	WRITE_ONLY	Allows a set of Button nodes to be easily created by providing an array of button labels. Each string in the array will result in a Button node to be added to the ButtonGroup node, using the string as the button label
+
 Sample app
 ButtonGroupExample is a sample app demonstrating ButtonGroup in action.

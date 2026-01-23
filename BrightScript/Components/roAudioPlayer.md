@@ -1,14 +1,9 @@
 roAudioPlayer
 The Audio Player object provides the ability to setup the playing of a series of audio streams. The object accepts an array of content meta-data objects, describing the audio and providing URLs for accessing each stream. The component understands the following streamformat values: "mp3", "mp4", "hls", "es.aac-adts", "flac."
-
 This object does not provide an interface to a screen. In order to get events both from the screen you are using and the Audio Player, you should use the same Message Port for both objects.
-
 This object is created with no parameters:
-
 CreateObject("roAudioPlayer")
-
 Example
-
 Sub Main()
     audioPlayer = CreateObject("roAudioPlayer")
     port = CreateObject("roMessagePort")
@@ -28,10 +23,12 @@ Sub Main()
             endif
         end while
 End Sub
+
 Supported interfaces
 ifAudioPlayer
 ifHttpAgent
 ifSetMessagePort
 ifGetMessagePort
+
 Supported events
 roAudioPlayerEvent

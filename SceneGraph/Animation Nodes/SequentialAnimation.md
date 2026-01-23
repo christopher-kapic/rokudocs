@@ -1,13 +1,9 @@
 SequentialAnimation
 Extends AnimationBase
-
 The SequentialAnimation node class allows you to specify that a set of animations should occur sequentially. The children of the SequentialAnimation node specify the set of animations to be executed. Note that the use of the delay field in the child animations allows a delay between any two animations to be specified, if desired.
-
 The state field is set to running when any of the child animations is in progress. Once all the animations have run to completion, the state field is set to stopped.
-
 Example
 The following example animates a group of rectangles to expand and change opacity sequentially from left to right.
-
 SequentialAnimation Node Class Example
 <?xml version="1.0" encoding="utf-8" ?>
 
@@ -37,7 +33,7 @@ SequentialAnimation Node Class Example
     <Label   text = "Bars Should Be Dancing"  width = "1280"  translation = "[0,500]"  horizAlign = "center"  vertAlign = "center"  />
     <SequentialAnimation   id = "testSequentialAnimation" >
     <Animation        id = "R1Animation"       duration = "2"       easeFunction = "linear" >
-        <Vector2DFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ [1, 1], [1, 2], [1, 1] ]"    fieldToInterp="R1.scale" />        
+        <Vector2DFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ [1, 1], [1, 2], [1, 1] ]"    fieldToInterp="R1.scale" />
         <FloatFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ 0.2, 1, 0.2 ]"    fieldToInterp="R1.opacity" />
     </Animation>
     <Animation        id = "R2Animation"       duration = "2"       easeFunction = "linear" >
@@ -61,5 +57,6 @@ SequentialAnimation Node Class Example
 </children>
 
 </component>
+
 Sample app
 AnimationSequentialExample is a sample app demonstrating SequentialAnimation in action.

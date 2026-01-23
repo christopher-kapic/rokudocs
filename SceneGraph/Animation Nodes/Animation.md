@@ -1,15 +1,10 @@
 Animation
 Extends AnimationBase
-
-The Animation node class provides animations of renderable nodes, by applying interpolator functions to the values in specified renderable node fields. For an animation to take effect, an Animation node definition must include a child field interpolator node (FloatFieldInterpolator, Vector2DFieldInterpolator, ColorFieldInterpolator) definition for each renderable node field that is animated.
-
+The Animation node class provides animations of renderable nodes, by applying interpolator functions to the values in specified renderable node fields. For an animation to take effect, an Animation node definition must include a child field interpolator node ( FloatFieldInterpolator , Vector2DFieldInterpolator , ColorFieldInterpolator ) definition for each renderable node field that is animated.
 The Animation node class provides a simple linear interpolator function, where the animation takes place smoothly and simply from beginning to end. The Animation node class also provides several more complex interpolator functions to allow custom animation effects. For example, you can move a graphic image around the screen at differing speeds and curved trajectories at different times in the animation by specifying the appropriate function in the easeFunction field (quadratic and exponential are two examples of functions that can be specified). The interpolator functions are divided into two parts: the beginning of the animation (ease-in), and the end of the animation (ease-out). You can apply a specified interpolator function to either or both ease-in and ease-out, or specify no function for either or both (which is the linear function). You can also change the portion of the animation that is ease-in and ease-out to arbitrary fractional values for a quadratic interpolator function applied to both ease-in and ease-out.
-
 Example
-Animation Markup in the SceneGraph Samples provides several simple examples of Animation node definitions that use all of the field interpolator nodes. Other simple examples of using the field interpolators can be found in the FloatFieldInterpolator, Vector2DFieldInterpolator, and ColorFieldInterpolator.
-
+Animation Markup in the SceneGraph Samples provides several simple examples of Animation node definitions that use all of the field interpolator nodes. Other simple examples of using the field interpolators can be found in the FloatFieldInterpolator , Vector2DFieldInterpolator , and ColorFieldInterpolator .
 The following example shows how to use some simple animations. It uses two Animation nodes, each with its own Vector2DFieldInterpolator. The first defines a translation animation of the poster image, and the second defines a scale animation. They are both launched in an init() function using BrightScript. When run together, the effect is to "bloom" the poster image on the screen.
-
 Animation BrightScript example
 function init()
    scaleAnimation = m.top.FindNode("scaleAnimation")
@@ -17,6 +12,7 @@ function init()
    scaleAnimation.control = "start"
    transAnimation.control = "start"
 end function
+
 Animation XML example
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="SimpleScaleAnimation" extends="Group" >
@@ -49,10 +45,11 @@ Animation XML example
 </children>
 
 </component>
+
 Fields
 Field	Type	Default	Access Permission	Description
 duration	Time	0	READ_WRITE	Sets the duration of the animation in seconds
-easeFunction	string	"outCubic"	READ_WRITE	Specifies the interpolator function to be used for the animation:
+easeFunction	string	"outCubic"	READ_WRITE	Specifies the interpolator function to be used for the animation: Value Ease-In/Ease-Out Function linear No ease-in or ease-out inQuad Quadratic ease-in function, no ease-out inCubic Cubic ease-in function, no ease-out inQuartic Quartic ease-in function, no ease-out inQuintic Quintic ease-in function, no ease-out inExpo Exponential ease-in function, no ease-out outQuad Quadratic ease-out function, no ease-in outCubic Cubic ease-out function, no ease-in outQuartic Quartic ease-out function, no ease-in outQuintic Quintic ease-out function, no ease-in outExpo Exponential ease-out function, no ease-in inOutQuad Quadratic ease-in and ease-out function inOutCubic Cubic ease-in and ease-out function inOutQuartic Quartic ease-in and ease-out function inOutQuintic Quintic ease-in and ease-out function inOutExpo Exponential ease-in and ease-out function piecewise Quadratic ease-in and ease-out function with extra control over the percentage of the duration during which ease-in and ease-out occurs. The extra control is specified using the easeInPercent and easeOutPercent fields.	Value	Ease-In/Ease-Out Function	linear	No ease-in or ease-out	inQuad	Quadratic ease-in function, no ease-out	inCubic	Cubic ease-in function, no ease-out	inQuartic	Quartic ease-in function, no ease-out	inQuintic	Quintic ease-in function, no ease-out	inExpo	Exponential ease-in function, no ease-out	outQuad	Quadratic ease-out function, no ease-in	outCubic	Cubic ease-out function, no ease-in	outQuartic	Quartic ease-out function, no ease-in	outQuintic	Quintic ease-out function, no ease-in	outExpo	Exponential ease-out function, no ease-in	inOutQuad	Quadratic ease-in and ease-out function	inOutCubic	Cubic ease-in and ease-out function	inOutQuartic	Quartic ease-in and ease-out function	inOutQuintic	Quintic ease-in and ease-out function	inOutExpo	Exponential ease-in and ease-out function	piecewise	Quadratic ease-in and ease-out function with extra control over the percentage of the duration during which ease-in and ease-out occurs. The extra control is specified using the easeInPercent and easeOutPercent fields.
 Value	Ease-In/Ease-Out Function
 linear	No ease-in or ease-out
 inQuad	Quadratic ease-in function, no ease-out
@@ -75,5 +72,6 @@ easeInPercent	float	0.5	READ_WRITE	If easeFunction is set to piecewise, easeInPe
 easeOutPercent	float	0.5	READ_WRITE	If easeFunction is set to piecewise, easeOutPercent sets the percentage of the animation duration during which ease-out is applied. Note that the values of easeInPercent plus easeOutPercent must be less than or equal to 1. For all other values of easeFunction, easeOutPercent is ignored
 optional	boolean	false	READ_WRITE	Set to true to skip animations on lower performing Roku devices. See Roku Devices for model numbers and code names. When an Animation has optional set to true, setting the control field to start will cause the state field to change to running and immediately change again to finished. These state changes allow any logic tied to state field observers that run at the start and end of the Animation to be properly called
 willBeSkipped	boolean	false	READ_ONLY	Indicates whether the animation runs or jumps to the end (effectively skipping the animation and rendering it in its final state).
+
 Sample app
 SimpleAnimation demonstrates Animation in action.

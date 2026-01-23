@@ -1,10 +1,7 @@
 roFont
 roFont represents a particular font, from a font-family (eg. Arial), with a particular pixel size (e.g 20), and a particular boldness or italicness.
-
 It is used in conjunction with roFontRegistry to create and manage fonts. Font files are registered with roFontRegistry and then various methods in roFontRegistry can be used to create roFont objects. Applications should not create roFonts with CreateObject() but should always use roFontRegistry to create them. roFont objects in turn can be used with ifDraw2D.DrawText to draw text on the screen or into bitmaps.
-
 Example
-
 screen = CreateObject("roScreen")
 white = &hFFFFFFFF
 blue = &h0000FFFF
@@ -20,5 +17,6 @@ y = 100
 border = 8
 screen.DrawRect(x, y, w + 2*border, h + 2*border, blue)
 screen.DrawText(text, x+border, y+border, white, font)
+
 Supported interfaces
 ifFont

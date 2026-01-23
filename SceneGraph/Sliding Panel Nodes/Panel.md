@@ -1,21 +1,19 @@
 Panel
 Extends Group
-
 The Panel node is used to create sliding panels for app UI, similar to those in the Roku OS home screen.
-
 Fields
 Field	Type	Default	Access Permission	Use
 panelSize	string	narrow	WRITE_ONLY	Write-Only
 Specifies one of the default panel sizes. Setting the field causes the width and leftPosition fields to be set to values that match the RSG preferred layout for a panel of the specified size.
 
+Value Meaning narrow Set the width and leftPosition fields to the values for a narrow Panel medium Set the width and leftPosition fields to the values for a medium width Panel wide Set the width and leftPosition fields to the values for a wide Panel full Set the width and leftPosition fields to the values for a full width Panel
+
+Note that PanelSet usage mandates that whenever two Panels are visible, they should include either one narrow and one wide panel or two medium width panels. If one Panel is visible, it's panelSize should be set to "full".	Value	Meaning	narrow	Set the width and leftPosition fields to the values for a narrow Panel	medium	Set the width and leftPosition fields to the values for a medium width Panel	wide	Set the width and leftPosition fields to the values for a wide Panel	full	Set the width and leftPosition fields to the values for a full width Panel
 Value	Meaning
 narrow	Set the width and leftPosition fields to the values for a narrow Panel
 medium	Set the width and leftPosition fields to the values for a medium width Panel
 wide	Set the width and leftPosition fields to the values for a wide Panel
 full	Set the width and leftPosition fields to the values for a full width Panel
-
-
-Note that PanelSet usage mandates that whenever two Panels are visible, they should include either one narrow and one wide panel or two medium width panels. If one Panel is visible, it's panelSize should be set to "full".
 width	float	388	READ_WRITE	Specifies the width of the panel in pixels. In most cases, this should be set by setting the panelSize field to one of the pre-configured settings.
 height	float	-1	READ_WRITE	Specifies the height of the panel. In most cases, this will be set by the PanelSet and should treated as a read-only value.
 leftPosition	float	105	READ_WRITE	Specifies the horizontal position of the panel relative to the left edge of the PanelSet (which is a the left edge of the display by default). In most cases, this should be set by setting the panelSize field to one of the pre-configure settings.
@@ -29,5 +27,6 @@ isFullScreen	Boolean	false	READ_WRITE	The isFullScreen field indicates that this
 goBackCount	integer	1	READ_WRITE	Setting goBackCount field to a value greater than 1 causes the PanelSet to move the focus back that many panels when the user presses the left arrow button, sliding the Panels as needed to make sure the panel that has the focus ends up onscreen.
 selectButtonMovesPanelForward	Boolean	true	READ_WRITE	When set to true, pressing the OK/Select button on the remote control causes the PanelSet focus to move to the next panel.
 isOffscreenLeft	Boolean	false	READ_WRITE	This field is set by the PanelSet to indicate that the panel is positioned offscreen of the left edge of the PanelSet. This field is often observed to cancel outstanding load requests for images that are displayed on the panel.
+
 Sample app
 PanelExample is a sample app demonstrating Panel in action.

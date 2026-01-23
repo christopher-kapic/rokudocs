@@ -1,25 +1,21 @@
 Font
 Extends Node
-
 The Font node class specifies the font to be used by a Label node, or any other nodes that render text.
-
 Nodes that use fonts include a field that stores a Font node. The font to use is specified by creating a Font node, and setting its uri and size fields.
-
 The uri field can be set to any TrueType/OpenType font file. For example, to specify a font in XML markup:
-
 <Label>
   <Font role = "font" uri = "pkg:/fonts/font.ttf" size = "24" />
 </Label>
-A default system font can also be specified, such as in the following:
 
+A default system font can also be specified, such as in the following:
 <Label id = "myLabel"
   width = "200"
   height = "200"
   text = "Hello Label"
-  font = "font:MediumBoldSystemFont" 
+  font = "font:MediumBoldSystemFont"
   />
-Below is the list of all the possible system font values:
 
+Below is the list of all the possible system font values:
 TinySystemFont
 TinyBoldSystemFont
 SmallerSystemFont
@@ -36,13 +32,14 @@ LargestSystemFont
 ExtraLargeSystemFont
 ExtraLargeBoldSystemFont
 BadgeSystemFont
-The font can also be specified in BrightScript, for example:
 
+The font can also be specified in BrightScript, for example:
 label = CreateObject("roSGNode", "Label")
 font  = CreateObject("roSGNode", "Font")
 font.uri = "pkg:/fonts/font.ttf"
 font.size = 24
 label.font = font
+
 Fields
 Field	Type	Default	Access Permission	Description
 uri	uri	""	READ_WRITE	Specifies a TrueType or OpenType font file. Currently only font files included in the application can be specified

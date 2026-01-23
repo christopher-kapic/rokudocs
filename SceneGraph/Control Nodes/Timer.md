@@ -1,11 +1,8 @@
 Timer
 Extends Node
-
 The Timer node class generates an observable event after a specified amount of time has elapsed.
-
 Example
 The following changes the text string on the display screen every five seconds as the Timer node generates a fire field observable event.
-
 Timer Node Class Example
 <?xml version="1.0" encoding="utf-8" ?>
 
@@ -61,9 +58,10 @@ end sub
 </children>
 
 </component>
+
 Fields
 Field	Type	Default	Access Permission	Description
-control	string	none	READ_WRITE	Used to control the operation of the Timer node. Recognized values include:
+control	string	none	READ_WRITE	Used to control the operation of the Timer node. Recognized values include: Value Effect none No effect start Starts the Timer node operation stop Stops a running Timer node	Value	Effect	none	No effect	start	Starts the Timer node operation	stop	Stops a running Timer node
 Value	Effect
 none	No effect
 start	Starts the Timer node operation
@@ -71,5 +69,6 @@ stop	Stops a running Timer node
 repeat	Boolean	false	READ_WRITE	If set to true, the Timer node fires repeatedly, each time the specified duration field value elapses. If set to false, the Timer node only fires once until restarted
 duration	time	1	READ_WRITE	Specifies the time in seconds before the Timer node fires after the control field value is set to start. To specify time values down to millisecond granularity, use a float type (0.001 equals one millisecond)
 fire	Event	N/A	OBSERVE_ONLY	Triggers observer callback functions when the Timer node fires. Please note that the timer observer callback executes on the render thread
+
 Sample app
 TimerExample is a sample app demonstrating Timer in action.

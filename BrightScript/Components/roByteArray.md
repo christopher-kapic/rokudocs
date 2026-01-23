@@ -1,10 +1,8 @@
 roByteArray
 The byte array component is used to contain and manipulate an arbitrary array of bytes.
-
-This object contains functions to convert strings to or from a byte array, as well as to or from ascii hex or ascii base 64. Note that if you are converting a byte array to a string, and the byte array contains a zero, the string conversion will end at that point. roByteArray will autosize to become larger as needed. If you wish to turn off this behavior, then use the SetResize() function. If you read an uninitialized index, "invalid" is returned. roByteArray supports the ifArray interface, and so can be accessed with the array [] operator. The byte array is always accessed as unsigned bytes when using this interface. roByteArray also supports the ifEnum interface, and so can be used with a "for each" statement.
-
+This object contains functions to convert strings to or from a byte array, as well as to or from ascii hex or ascii base 64. Note that if you are converting a byte array to a string, and the byte array contains a zero, the string conversion will end at that point. roByteArray will autosize to become larger as needed. If you wish to turn off this behavior, then use the SetResize() function. If you read an uninitialized index, "invalid" is returned.
+roByteArray supports the ifArray interface, and so can be accessed with the array [] operator. The byte array is always accessed as unsigned bytes when using this interface. roByteArray also supports the ifEnum interface, and so can be used with a "for each" statement.
 Example
-
 ba=CreateObject("roByteArray")
 ba.FromAsciiString("leasure.")
 if ba.ToBase64String()<>"bGVhc3VyZS4=" then stop
@@ -31,6 +29,7 @@ if ba2.count()<>100 then stop
 for x=10 to 100
     if ba2[x-10]<>x then stop
 end for
+
 Supported interfaces
 ifByteArray
 ifArray

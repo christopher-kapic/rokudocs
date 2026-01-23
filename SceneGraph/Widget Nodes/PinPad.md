@@ -1,23 +1,17 @@
 PinPad
 Extends Group
-
 The PinPad node is a simple widget that allows you to enter a fixed length numeric string. The string that is entered is displayed in a set of boxes above the PinPad node keyboard, with each box displaying a single numeral of the entered string.
-
 The PinPad node must have the key focus in order to work properly.
-
 The default appearance of the PinPad node is very transparent, allowing the node to pick up most of its color from what is rendered underneath it. The appearance can be customized by changing the keyboardBitmapUri and other fields.
-
 PinPad Bitmap Templates
 Use the links below to download the template files.
-
 The files have opaque white lines that show the key outlines with the rest of the images fully transparent. Looking at the files in some image viewers that do not support transparency will result in the images looking all white.
-
 When creating your own keyboard background artwork, you must maintain the size of the image and the position of the keys in order for it to align properly with the rendered key labels and icons.
-
 Templates:
 SD PinPad Template
 HD PinPad Template
 FHD PinPad Template
+
 Fields
 Field	Type	Default	Access Permission	Description
 pin	string	""	READ_WRITE	Contains the string of numbers that have been entered
@@ -34,5 +28,6 @@ showPinDisplay	boolean	true	READ_WRITE	Specifies whether or not the pin display 
 You may want to only show the keyboard part of the PinPad node. In those cases, the pin field of the node will still contain the string entered by the user, so that it can displayed in some different manner.
 itemFocused	integer	0	READ_WRITE	Specifies index of the key label that will be in focus when PinPad is created
 focusVisible	boolean	true	READ_WRITE	Specifies whether or not focused key is visible when PinPad is created
+
 Sample app
 PinpadExample is a sample app demonstrating Pinpad in action.

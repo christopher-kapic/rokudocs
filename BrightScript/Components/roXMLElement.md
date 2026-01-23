@@ -1,32 +1,26 @@
 roXMLElement
 roXMLElement is used to contain an XML tree.
-
 For instance,
-
 <tag1>this is some text</tag1>
-Would parse such that:
 
+Would parse such that:
     Name = "tag1"
     Attributes = invalid
     Body = roString with "this is some text"
+
 Example
+<emptytag caveman="barney" />
 
-<emptytag caveman="barney" /> 
 Would parse such that:
-
     Name = "emptytag"
     Attributes = roAssociativeArray, with one entry { caveman: "barney" }
     Body = invalid
+
 If the tag contains other tags, body will be of type roXMLList.
-
 To generate XML, create an roXMLElement, then use functions like SetName(), AddAttribute(), SetBody(), AddElementWithBody(), AddElement(), AddBodyElement(), and AddText() functions to build the XML object hierarchy.
-
 Then call GenXML() to return the XML as a string.
-
 GenXML() takes one parameter (boolean) that indicates whether the generated xml should have the <?xml …> tag at the top.
-
 Example: Subroutine to print out the contents of an roXMLElement tree
-
 PrintXML(root, 0)
 
 Sub PrintXML(element As Object, depth As Integer)
@@ -50,8 +44,8 @@ Sub PrintXML(element As Object, depth As Integer)
     end if
     print
 end sub
-Example: Generating XML
 
+Example: Generating XML
 root.SetName("myroot")
 root.AddAttribute("key1", "value1")
 root.AddAttribute("key2", "value2")
@@ -67,5 +61,6 @@ ne.SetBody("more sub text 3")
 root.AddElementWithBody("sub", "another sub (#4)")
 PrintXML(root, 0)
 print root.GenXML(false)
+
 Supported interfaces
 ifXMLElement

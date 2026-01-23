@@ -1,20 +1,16 @@
 ArrayGrid
 Extends Group
-
 The ArrayGrid node class is an abstract base class that provides functionality to the list and grid node classes that are extended from ArrayGrid. The field value settings and their effect in this abstract base class depend in many cases on whether a list, or a grid, node class is extended from ArrayGrid, and the specific type of list or grid.
-
 The following node classes extended from ArrayGrid derive their basic functionality from the ArrayGrid abstract node class:
-
 LabelList
 MarkupList
 PosterGrid
 MarkupGrid
 RowList
-ArrayGrid is not meant to be instantiated directly by app code
 
+ArrayGrid is not meant to be instantiated directly by app code
 Data Bindings
 Each node class extended from the ArrayGrid abstract node class will have custom data bindings.
-
 Fields
 Field	Type	Default	Access Permission	Description
 content	ContentNode	none	READ_WRITE	Specifies the content meta-data for the list or grid. This field must be set with a ContentNode that specifies the content meta-data for the list or grid in order for the list or grid to be displayed. See the Data Bindings section of each list or grid reference description for details on the content meta-data that must be specified in the ContentNode
@@ -24,11 +20,11 @@ numRows	integer	0	READ_WRITE	Specifies the number of visible rows displayed. Not
 numColumns	integer	0	READ_WRITE	Specifies the number of columns in a grid. This field is not used for lists
 focusRow	integer	0	READ_WRITE	Specifies the row that will have fixed focus if the vertFocusAnimationStyle field value is set to fixedFocusWrap
 focusColumn	integer	0	READ_WRITE	Specifies the column that will have fixed focus for grids if the horizFocusAnimationStyle field value is set to fixedFocusWrap. This field is not used for lists
-horizFocusAnimationStyle	option string	floatingFocus	READ_WRITE	Specifies the how the focus indicator moves in a row of grid items in response to the remote direction pad Left and Right key presses. This field is not used for lists. The possible values are:
+horizFocusAnimationStyle	option string	floatingFocus	READ_WRITE	Specifies the how the focus indicator moves in a row of grid items in response to the remote direction pad Left and Right key presses. This field is not used for lists. The possible values are: Option Effect floatingFocus Causes the focus indicator to float left or right until it reaches the end of the row, at which point the focus indicator will stay fixed on the first or last item in the row, and the items will scroll left or right if there were items that were not visible. fixedFocusWrap Causes the row to wrap around when the focus indicator reaches the first or last item in the row, as long as the row contains enough items to fill the row. If the row does not contain enough items to fill the row, the focus indicator will float left and right.	Option	Effect	floatingFocus	Causes the focus indicator to float left or right until it reaches the end of the row, at which point the focus indicator will stay fixed on the first or last item in the row, and the items will scroll left or right if there were items that were not visible.	fixedFocusWrap	Causes the row to wrap around when the focus indicator reaches the first or last item in the row, as long as the row contains enough items to fill the row. If the row does not contain enough items to fill the row, the focus indicator will float left and right.
 Option	Effect
 floatingFocus	Causes the focus indicator to float left or right until it reaches the end of the row, at which point the focus indicator will stay fixed on the first or last item in the row, and the items will scroll left or right if there were items that were not visible.
 fixedFocusWrap	Causes the row to wrap around when the focus indicator reaches the first or last item in the row, as long as the row contains enough items to fill the row. If the row does not contain enough items to fill the row, the focus indicator will float left and right.
-vertFocusAnimationStyle	option string	floatingFocus	READ_WRITE	Specifies the how the focus indicator moves in a list or a column of grid items in response to the remote direction pad Up and Down key presses. The possible values are:
+vertFocusAnimationStyle	option string	floatingFocus	READ_WRITE	Specifies the how the focus indicator moves in a list or a column of grid items in response to the remote direction pad Up and Down key presses. The possible values are: Option Effect floatingFocus Causes the focus indicator to float up or down until it reaches the end of the list or grid column, at which point the focus indicator will stay fixed on the first or last item in the list or grid column, and the items will scroll up or down if there are items that were not visible. Note that when this style is set, section dividers are not rendered. fixedFocusWrap Causes the column to wrap around when the focus indicator reaches the first or last item in the list or grid column, as long as the list or grid column contains enough items to fill the list or grid column. If the list or grid column does not contain enough items to fill the list or grid column, the focus indicator will float up and down. fixedFocus Causes the focus to stay fixed on the upper leftmost item. As the user scrolls down, the row containing the previously selected item scrolls up off screen. Scrolling continues until the last row is reached.	Option	Effect	floatingFocus	Causes the focus indicator to float up or down until it reaches the end of the list or grid column, at which point the focus indicator will stay fixed on the first or last item in the list or grid column, and the items will scroll up or down if there are items that were not visible. Note that when this style is set, section dividers are not rendered.	fixedFocusWrap	Causes the column to wrap around when the focus indicator reaches the first or last item in the list or grid column, as long as the list or grid column contains enough items to fill the list or grid column. If the list or grid column does not contain enough items to fill the list or grid column, the focus indicator will float up and down.	fixedFocus	Causes the focus to stay fixed on the upper leftmost item. As the user scrolls down, the row containing the previously selected item scrolls up off screen. Scrolling continues until the last row is reached.
 Option	Effect
 floatingFocus	Causes the focus indicator to float up or down until it reaches the end of the list or grid column, at which point the focus indicator will stay fixed on the first or last item in the list or grid column, and the items will scroll up or down if there are items that were not visible. Note that when this style is set, section dividers are not rendered.
 fixedFocusWrap	Causes the column to wrap around when the focus indicator reaches the first or last item in the list or grid column, as long as the list or grid column contains enough items to fill the list or grid column. If the list or grid column does not contain enough items to fill the list or grid column, the focus indicator will float up and down.

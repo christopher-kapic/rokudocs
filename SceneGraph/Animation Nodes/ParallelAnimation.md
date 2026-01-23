@@ -1,13 +1,9 @@
 ParallelAnimation
 Extends AnimationBase
-
 The ParallelAnimation node class allows you to specify that a set of animations should occur simultaneously. The children of a ParallelAnimation node specify the set of animations to be executed. Note that the use of the delay field in the child animations allows the start of the child animations to be offset from one another, if desired.
-
 The state field is set to running when any of the child animations is in progress. Once all the animations have run to completion, the state field is set to stopped.
-
 Example
 The following example animates a group of rectangles to expand and change opacity at the same time.
-
 ParallelAnimation Node Class Example
 <?xml version="1.0" encoding="utf-8" ?>
 
@@ -37,14 +33,14 @@ ParallelAnimation Node Class Example
     <Label   text = "Bars Should Be Dancing"  width = "1280"  translation = "[0,500]"  horizAlign = "center"  vertAlign = "center"  />
     <ParallelAnimation   id = "testParallelAnimation" > <!--** ParallelAnimation   id = "testParallelAnimation"   repeat = "true" **-->
     <Animation id = "R1Animation" duration = "2" easeFunction = "linear" >
-        <Vector2DFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ [1, 1], [1, 2], [1, 1] ]"    fieldToInterp="R1.scale" /> 
+        <Vector2DFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ [1, 1], [1, 2], [1, 1] ]"    fieldToInterp="R1.scale" />
         <FloatFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ 0.2, 1, 0.2 ]"    fieldToInterp="R1.opacity" />
     </Animation>
-     <Animation        id = "R2Animation"       duration = "2"       easeFunction = "linear" > 
+     <Animation        id = "R2Animation"       duration = "2"       easeFunction = "linear" >
          <Vector2DFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ [1, 1], [1, 2], [1, 1] ]"    fieldToInterp="R2.scale" />
              <FloatFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ 0.2, 1, 0.2 ]"    fieldToInterp="R2.opacity" />
      </Animation>
-     <Animation        id = "R3Animation"       duration = "2"       easeFunction = "linear" > 
+     <Animation        id = "R3Animation"       duration = "2"       easeFunction = "linear" >
          <Vector2DFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ [1, 1], [1, 2], [1, 1] ]"    fieldToInterp="R3.scale" />
              <FloatFieldInterpolator    key= "[0, 0.5, 1]"    keyValue= "[ 0.2, 1, 0.2 ]"    fieldToInterp="R3.opacity" />
      </Animation>
@@ -61,5 +57,6 @@ ParallelAnimation Node Class Example
 </children>
 
 </component>
+
 Sample app
 AnimationParallelExample is a sample app demonstrating ParallelAnimation in action.

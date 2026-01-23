@@ -1,12 +1,8 @@
 Button
 Extends Group
-
 The Button node is a simple widget that generates a buttonSelected event when the user selects it. The button can display a label and/or an icon, as well as a background image. Fields are provided to customize the label text and color depending on whether or not the button has the key focus. Similarly, the bitmaps used for the icon and background can be specified for both focused and unfocused button states.
-
 By default, the background of the button is only shown when the button has the key focus. Buttons are typically used in a ButtonGroup node that manages which button in the group will have the key focus when the ButtonGroup node receives the focus. When the ButtonGroup node has the focus, the button in the group that has the focus will display the focusBitmapUri bitmap as its background. When the ButtonGroup node does not have the focus, it remembers which button in the group had the focus and sets that button showFocusFootprint field to true, causing it to a render a "footprint" bitmap as a visual indicator that it will be the focused button when the ButtonGroup node receives the focus again. All other buttons in the ButtonGroup node do not display a background image.
-
 When a Button node is created that is not a child of a ButtonGroup node, typically the showFootprintfield field should be set to true, so that the button always displays a background image.
-
 Fields
 Field	Type	Default	Access Permission	Description
 text	string	""	READ_WRITE	Specifies the text to be displayed as the button label
@@ -24,5 +20,6 @@ height	float	64	READ_WRITE	Specifies the height of the button
 showFocusFootprint	boolean	false	READ_WRITE	Controls whether the focus "footprint" bitmap is displayed when the button does not have the key focus. Since the default value of the showFocusFootprint field is false, the "footprint" bitmap is not displayed by default
 scrollable	boolean	false	READ_WRITE	Enables auto-scrolling to ensure text that is larger than initially expected fits within the button (for example, when the text is translated to other languages).
 buttonSelected	Event	N/A	READ_ONLY	The buttonSelected field is set whenever the button is selected. The field should be used to call observer callback functions when the button is selected
+
 Sample app
 ButtonExample is a sample app demonstrating Button in action.

@@ -1,8 +1,6 @@
 roTextureManager
 The Texture Manager provides a set of API's for managing an roBitmap cache.
-
 Example: Requesting an roBitmap from the roTextureManager
-
 Sub Main()
     mgr = CreateObject("roTextureManager")
     msgport = CreateObject("roMessagePort")
@@ -26,10 +24,12 @@ Sub Main()
         end if
    end if
 End Sub
+
 Supported interfaces
 ifTextureManager
 ifSetMessagePort
 ifGetMessagePort
 ifHttpAgent
+
 Supported events
 roTextureRequestEvent

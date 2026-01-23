@@ -1,28 +1,17 @@
 Dialog
-Roku OS 10.0 introduced a new StandardDialog node, which features updated graphics and color palette support. This enables developers to provide a consistent user experience across the dialogs in their app. Developers should replace the legacy Dialog nodes in their app with the new StandardDialog nodes.
-
+Roku OS 10.0 introduced a new StandardDialog node , which features updated graphics and color palette support. This enables developers to provide a consistent user experience across the dialogs in their app. Developers should replace the legacy Dialog nodes in their app with the new StandardDialog nodes .
 Extends Group
-
 The Dialog node class defines a modal pop-up dialog used to present the user with information requiring their immediate attention.
-
 Setting the dialog field of the current Scene node to a Dialog node causes the dialog to be displayed.
-
 The Dialog node is configured to have up to five regions: the title, message, bullet text, graphic, and button regions. All of these are optional except for the title.
-
 The title region consists of a an icon and a title label, along with a horizontal divider that visually separates the title from the rest of the dialog.
-
 The message region consist of a string that is displayed below the title divider.
-
 The bullet text region contains a set of zero or more bullet points. It is displayed below the message.
-
 The graphic region consists of a single bitmap displayed center-aligned below the message and bullet text and above the button region.
-
 The button region contains a ButtonGroup node that contains zero or more Button nodes, arranged vertically.
 
 Dialogs are modal and intercept all key events except pressing the Home key. Dialogs are closed automatically when the user presses the Home key or the Back key. If the optionsDialog field is set to true, pressing the Options key also closes the dialog.
-
 Only a single dialog may appear at any time. If a second dialog is shown, the previous dialog is closed automatically.
-
 Fields
 Field	Type	Default	Access Permission	Description
 title	string	""	READ_WRITE	Title of the dialog box
@@ -55,5 +44,6 @@ close	Boolean	false	WRITE_ONLY	Causes the dialog to be dismissed. The dialog is 
 wasClosed	Event	N/A	READ_WRITE	Set when the dialog has been closed. The field is set when the dialog close field is set, when the Back or Home key has been pressed, when the Options key has been pressed if the optionsDialog field is set to true, and when the dialog is dismissed because another dialog was displayed
 width	float	-1.0	READ_WRITE	Specifies the width of the dialog. By default, this value is pulled from the system theme
 maxHeight	float	-1.0	READ_WRITE	Sets the maximum height of the dialog. By default, the Dialog will scale the height based on the contents but never larger than the height of the display resolution. Setting maxHeight smaller than the contents will switch to a scrollable text region
+
 Sample app
 DialogExample is a sample app demonstrating Dialog in action.

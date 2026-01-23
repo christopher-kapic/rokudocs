@@ -1,12 +1,8 @@
 TextEditBox
 Extends Group
-
 The TextEditBox node class is intended to display a string of characters as they are typed. When focused, it displays a flashing cursor to indicate the text insertion position.
-
 TextEditBox nodes are automatically included in the Keyboard and MiniKeyboard node classes.
-
 The default appearance of the TextEditBox is very transparent, allowing it to pick up most of its color from what is rendered underneath it. The appearance can be customized by changing the backgroundUri and other fields.
-
 Fields
 Field	Type	Default	Access Permission	Description
 text	string	""	Read-Write	Contains the string of characters being displayed.
@@ -21,7 +17,7 @@ hintTextColor	color	0xffffffff	Read-Write	Specifies the color of the hint text s
 width	float	-1.0	Read-Write	Specifies the width of the TextEditBox node. When used internal to the Keyboard and MiniKeyboard nodes, those nodes set this field to match the width of the keyboard.
 backgroundUri	string	""	Read-Write	Specifies the URI of the image rendered as the background of the TextEditBox node.
 leadingEllipsis	Boolean	false	READ_WRITE	Specifies whether to display the end or beginning of text that overflows its available width:
-true. The end of the text is shown. For example, "the quick brown fox jumps over the lazy dog" would be truncated to "...jumps over the lazy dog".
-false. The start of the text is shown (for example, "the quick brown fox jumps...").
+true . The end of the text is shown. For example, "the quick brown fox jumps over the lazy dog" would be truncated to "...jumps over the lazy dog". false . The start of the text is shown (for example, "the quick brown fox jumps...").
+
 Sample app
 TextEditBoxExample is a sample app demonstrating TextEditBox in action.

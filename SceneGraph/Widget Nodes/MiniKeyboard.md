@@ -1,22 +1,19 @@
 MiniKeyboard
 Extends Group
-
 The MiniKeyboard node class allows a user to enter a string of letters and numerals. The string entered is displayed in a TextEditBox node that is part of the MiniKeyboard node.
-
 The MiniKeyboard node is intended for users to enter a simple case-insensitive string consisting of the letters A-Z and the numerals 0-9. It is intended for use in functions such as "Search", where the entered string need not support general case-sensitive text entry. For general text entry, use a Keyboard node instead.
-
 The MiniKeyboard node must have the key focus in order to work properly.
-
 The default appearance of the MiniKeyboard node is very transparent, allowing the keyboard to pick up most of its color from what is rendered underneath it. The appearance can be customized by changing the keyboardBitmapUri and other fields.
-
 Keyboard Bitmap Templates
 Use the links below to download the template files.
 The files have opaque white lines that show the key outlines with the rest of the images fully transparent. Looking at the files in some image viewers that do not support transparency will result in the images looking all white.
 When creating your own keyboard background artwork, you must maintain the size of the image and the position of the keys in order for it to align properly with the rendered key labels and icons.
+
 Templates
 SD MiniKeyboard Template
 HD MiniKeyboard Template
 FHD MiniKeyboard Template
+
 Fields
 Field	Type	Default	Access Permission	Description
 text	string	""	READ_WRITE	Contains the string of characters that has been entered
@@ -28,5 +25,6 @@ focusBitmapUri	string	""	READ_WRITE	Specifies the URI of an image file to be loa
 textEditBox	TextEditBox node	system default	READ_ONLY	This provides access to the Keyboard node internal TextEditBox node so that its appearance can be modified. You should not set this field, but you can set the fields of the TextEditBox node (such as, myKeyboard.textEditBox.textColor = "0xFF0000FF")
 showTextEditBox	boolean	true	READ_WRITE	Specifies whether or not the Keyboard node internal TextEditBox node is displayed. In most cases, it is desirable to display the TextEditBox node so that the user can see the string as it is entered. In some cases though, you might want to show only the keyboard part of the Keyboard node. In those cases, the text field of the node will still contain the string entered by the user, so it can displayed in some different manner
 lowerCase	boolean	true	READ_WRITE	Specifies whether the 26 letter keys are displayed as lowercase or uppercase
+
 Sample app
 MiniKeyboardExample is a sample app demonstrating MiniKeyboard in action.

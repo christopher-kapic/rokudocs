@@ -1,8 +1,6 @@
 roTimespan
 The Timespan object provides an interface to a simple timer for tracking the duration of activities. It's useful for tracking how an action has taken or if a specified time has elapsed from some starting event.
-
 Example: Timing an activity
-
 REM ******************************************************
 REM Compute the number of millisecs to perform a task
 REM ******************************************************
@@ -22,5 +20,6 @@ Function secondsLeft(String expirationDate) As Integer
     print "Expires: " + str + " secs: " + Stri(seconds)
     return seconds
 End Function
+
 Supported interfaces
 ifTimespan

@@ -1,64 +1,35 @@
 ZoomRowList
 The ZoomRowList node allows a row of the Row-Row Grid to smoothly zoom up to a larger size when that row has focus. Rows in this node are capable of gaining the focus while scrolling, and smoothly zooming up by the specified amount. The amount to zoom can be specified on a per row basis so that some rows can zoom up by a larger amount than others.
-
 Anatomy of a ZoomRowList node
 ZoomRowList is a vertically scrolling list of ZoomRowItem's. ZoomRowItem refers to a horizontally scrolling row or items plus any annotations such as title or counter. In the diagram below, the light blue rectangle identifies what's included in a ZoomRowItem.
-
-roku815px - partsLabelled
-
 ZoomRowItem's consist of four parts:
-Row Title - This is a built-in Label used to display a title for the row. The string that is displayed comes from the _title _field of the Row's ContentNode. The Row Title supports turning its display on or off, changing its position relative to the ZoomRowItem's coordinate system and modifying its color and font. This is identified by the green box in the diagram above.
+Row Title - This is a built-in Label used to display a title for the row. The string that is displayed comes from the _title _field of the Row's ContentNode. The Row Title supports turning its display on or off, changing its position relative to the ZoomRowItem's coordinate system and modifying its color and font. This is identified by the green box in the diagram above.
 Row Counter - This is a built-in Label used to display a counter for the row (i.e. 3 of 14). The string that is displayed is automatically generating by the ZoomRowList. In addition to supporting the display attributes listed above for the Row Title, the Row Counter also supports the option of only displaying it when there are enough items in the row to fill up the entire width of the ZoomRowList. By default, the Row Counter is only displayed for the focused row. This is identified by the orange box in the diagram above.
-Row Decoration - Row Decoration refers to an optional custom RSG component that is used to supplement or replace the Row Title and Row Counter displayed by each ZoomRowItem. The Row Decoration supports several fields that can be used to control its appearances, such as the current height of the ZoomRowItem and the current focus percentage of the row. Some examples where this could be useful include:
-
-Replacing the built-in Row Title with a more complex title that includes both text and icons
-Adding a Bob to the ZoomRowItem that becomes visible as the row enters the focus position and displays details about the currently focused item in the row.In the picture above, the ZoomRowItem does not include a custom Row Decoration.
+Row Decoration - Row Decoration refers to an optional custom RSG component that is used to supplement or replace the Row Title and Row Counter displayed by each ZoomRowItem. The Row Decoration supports several fields that can be used to control its appearances, such as the current height of the ZoomRowItem and the current focus percentage of the row. Some examples where this could be useful include: Replacing the built-in Row Title with a more complex title that includes both text and icons Adding a Bob to the ZoomRowItem that becomes visible as the row enters the focus position and displays details about the currently focused item in the row.In the picture above, the ZoomRowItem does not include a custom Row Decoration.
 Row - Row refers to the part of the ZoomRowItem that displays the horizontally scrolling set of Item nodes. Each Item uses a custom RSG component to render the associated data. The Row is identified by the yellow box in the diagram above. An Item is identified by the magenta box in the diagram above.
+
 In some cases, Decoration is used to refer to all the parts of the ZoomRowItem other than the Row (i.e. the Row Title, Row Counter and Row Decoration).
-
 ZoomRowList uses the same data model as RowList nodes. There is a single ContentNode, the root ContentNode, that is assigned to be the content of the entire ZoomRowList. The root ContentNode contains zero or more child ContentNode's that contain the data for each row of the ZoomRowList. These are referred to as row ContentNodes. Each of the row ContentNode's contain zero or more child ContentNode's that contain the data for each item in the row. These are referred to as item ContentNodes.
-
 Layout and coordinate systems
 Overall coordinate system and layout parameters
 The illustration below shows the overall coordinate system used by the ZoomRowList (the green X-Y axis). The origin of the coordinate system defines the top/left point of the fixed focus location.
-
 The heights of each ZoomRowItem is defined by the rowZoomHeight field if the row is focused and the rowHeight field if the row is not focused. As the row enters or leaves the focus position, the ZoomRowItem's height is smoothly interpolated between the two values. Each ZoomRowItem is separated from the next by the value specified in the spacingAfterRow field, shown in bright blue in the diagram.
-
 The ZoomRowList's itemClippingRect field is used to specify the region where the items in each Row can appear. In this case, the itemClippingRect, shown in yellow in the diagram, is set so that no partial items to the left of ZoomRowList's origin are visible. Generally, setting the itemClippingRect to the smallest value that contains the item's that should be displayed provides optimal performance, so in this case, the width/height of the itemClippingRect is set to the distance between the origin of the ZoomRowList's coordinate system and the right/bottom edge of the screen. Note that the itemClippingRect does not clip the focus feedback indicator.
-
 The rowWidth field specifies the maximum width of items in each Row before the item's wrap. If the total width of the items in the row is less than rowWidth, the focus will float left and right as the user navigates the row. If the total width of the items in the row exceeds rowWidth, the focus will stay fixed on the left and the items will animate left and right as the use navigates the row. In this case, the value of the rowWidth field has also been used to specify the position of the Row Counter.
-
-roku815px - overallCoordinateSystem
-
 Zoomed and unzoomed row layout parameters
 The diagram below shows how the various rowItem fields are used to layout zoomed and not zoomed ZoomRowItem's. Each ZoomRowItem has its own coordinate system. The X coordinate of the origin the coordinate system is equal to the X coordinate of the overall ZoomRowList's coordinate system. The Y coordinate of the origin of the each ZoomRowItem's coordinate system is position at the top of each ZoomRowItem. The ZoomRowItem coordinate system is shown as green axes in the diagram.
-
 The focused ZoomRowItem at the top uses the rowItemZoomOffset field to position its Row relative to the top of the ZoomRowItem's coordinate system. Similarly, the rowItemZoomHeight field is used to specify the height of the items in the Row. The width of the items in the Row is computed using the item's height and aspect ratio, which either comes from the rowItemAspectRatio field (if the useDefaultAspectRatio field is true) or from the aspectRatio field of each item's ContentNode if useDefaultAspectRatio is false.
-
 Similarly, the unfocused ZoomRowItem occupying the second row uses the rowItemOffset field to position its Row relative to the top of the ZoomRowItem's coordinate system. Similarly, the rowItemHeight field is used to specify the height of the items in the Row. The aspect ratio is used to compute the width of each item the height as above. The spacingAfterRowItem field is used to specify the horizontal distance between items in the Row. This spacing is zoomed up by the same percentage as the rowHeight as the row gains focus.
-
 In this illustration, there is no custom Row Decoration. The positions of Row Title and the Row Counter are specified relative to the origin of each ZoomRowItem by the rowTitleOffset and the rowCounterOffset fields, respectively. The Row Counter is right-aligned, so its right edge is located at the X coordinate of the rowCounterOffset.
-
-roku815px - rowLayout
-
 Custom row decoration
 The illustration below is similar to the one above, but in this case, a custom Row Decoration component is used to display album details for the ZoomRowItem in the focused position. Observe in this case that the rowItemZoomYOffset for the zoomed row is much larger than the rowItemYOffset for the un-zoomed row. This causes the space between the top of the ZoomRowItem and it's horizontally scrolling Row of items to increase as the ZoomRowItem gains focus, allowing room for the album details to smoothly transition onscreen to fill that extra space.
-
 Also, notice that the ratio of the focused/unfocused ZoomRowItem's overall height (rowZoom Height/row Height) is significantly larger than the ratio of the focus/unfocused heights of the ZoomRowItem's Row's (rowItemZoomHeight / rowItemHeight). To allow for the extra space occupied by the album details, the Row of items zooms up less than the overall ZoomRowItem does.
-
 Also note that in this case, the itemClippingRect is set to reveal partial items to the left of the origin of the ZoomRowList. Since the first row contains enough items to wrap, the partial items are shown. In the second row, there are not enough items to wrap, so all the items are fully visible and no duplicate partial items are shown.
-
-roku815px - rowDecorationLayout
-
 ZoomRowList fields
 ZoomRowList extends Group so has all the fields of Group as well its parent class Node.
-
 Many ZoomRowList fields have an array of values as their type. Unless otherwise noted, the values in these arrays specify a value for each row in the ZoomRowList's data model. If no values are specified, a default value is used. If there are fewer items in the array than rows in the ZoomRowList's data model, the last value in the array is repeated as needed for the unspecified rows. If there are more items in the array than rows in the ZoomRowList's data model, the extra values are ignored.
-
 One common use case for these array fields is to specify a special value for the first row in the array (a Hero row) and a second value for all other rows. In that case, the field would be set to [ <Hero Row Value>, <Regular Row Value> ] so that the Hero Row Value is used for the first row and the Regular Row Value is used for the remaining rows.
-
 This table documents all the fields in ZoomRowList:
-
 Field	Type	Default	Access Permission	Use
 content	ContentNode	invalid	READ_WRITE	Specifies the content for the list. The content should be a single ContentNode that has one child ContentNode for each row. These child ContentNodes for each row should themselves contains child ContentNodes for each item in the row. See ZoomRowList data model below for more details.
 itemComponentName	string	""	READ_WRITE	Specifies the name of an XML component for the items in each row. An instance of this component is created on demand for each visible item of each row. The XML component must define a specific interface as detailed Item component fields below.
@@ -99,9 +70,9 @@ drawFocusFeedbackOnTop	Boolean	true	READ_WRITE	If true, the focus feedback indic
 drawFocusFeedback	Boolean	true	READ_WRITE	If true, the focus feedback indicator is drawn. If false, it is not drawn.
 fadeFocusFeedbackWhenLongPressScrolling	Boolean	true	READ_WRITE	If true, when long press scrolling begins, the focus indicator will fade out and reappear when long press scrolling ends. If false, the focus indicator remains visible during long press scrolling.
 focusBitmapUri	uri	""	READ_WRITE	Specifies the bitmap file used for the focus feedback indicator when the ZoomRowList has focus. In most cases, this should be a 9-patch image that specifies both expandable regions as well as margins. Only set this field to specify a custom bitmap that differs in appearance from the default bitmap.
-focusBitmapBlendColor	color	0xFFFFFFFF	READ_WRITE	Blend the graphic image specified by focusBitmapUri with the specified color. If set to the default, 0xFFFFFFFF, no color blending will occur. Set this field to show a focus indicator graphic image with a different color than the image specified by focusBitmapUri.
+focusBitmapBlendColor	color	0xFFFFFFFF	READ_WRITE	Blend the graphic image specified by focusBitmapUri with the specified color. If set to the default, 0xFFFFFFFF, no color blending will occur. Set this field to show a focus indicator graphic image with a different color than the image specified by focusBitmapUri .
 wrapDividerBitmapUri	uri	""	READ_WRITE	Specifies the bitmap file to use as a visual separator between the last and first list items when the list wraps. In most case, this should be a 9-patch image that specifies both expandable regions. Only set this field to specify a custom bitmap that differs in appearance from the default bitmap.
-wrapDividerBitmapBlendColor	color	0xFFFFFFFF	READ_WRITE	Blend the graphic image specified by wrapDivider BitmapUri with the specified color. If set to the default, 0xFFFFFFFF, no color blending will occur. Set this field to show a focus indicator graphic image with a different color than the image specified by wrapDividerBitmapUri.
+wrapDividerBitmapBlendColor	color	0xFFFFFFFF	READ_WRITE	Blend the graphic image specified by wrapDivider BitmapUri with the specified color. If set to the default, 0xFFFFFFFF, no color blending will occur. Set this field to show a focus indicator graphic image with a different color than the image specified by wrapDivider BitmapUri .
 wrapDividerHeight	float	0	READ_WRITE	Specifies the height of the divider. The wrap divider bitmap will be scaled to this height. This height is also added to the row spacing after the last row to allow more space between the first and last rows when the divider is drawn.
 wrapDividerWidth	float	0	READ_WRITE	Specifies the width of the divider. The wrap divider bitmap will be scaled to this width. If not specified, the width is set to the value of the rowWidth field.
 wrapDividerOffset	Vector2D	0	READ_WRITE	By default, the wrap divider is drawn with its X-position set to 0 in the ZoomRowList's coordinate system and vertically centered in the space between the first and last rows (This space equals the spacing after the last row plus the row divider height). This field allows the position of the wrap divider to be adjusted relative to its default position.
@@ -160,7 +131,7 @@ jumpToRow	integer	-1	WRITE_ONLY	When set to a valid item index, causes the list 
 
 NOTE: RowList has an identical field named "jumpToItem". This new name better reflects the field's purpose.
 jumpToRowItem	array of integer	[ ]	WRITE_ONLY	When set to a valid [ row, col ] index pair, causes the list to immediately update so that the specified row, col item moves into the focus position.
-animateToRow	integer	-1	WRITE_ONLY	Write-Only 
+animateToRow	integer	-1	WRITE_ONLY	Write-Only
 When set to a valid item index, causes the list to quickly scroll so that the specified row moves into the focus position.
 
 NOTE: RowList has an identical field named "animateToItem". This new name better reflects the field's purpose.
@@ -178,24 +149,23 @@ If set to "focusIsAtTop" and the ZoomRowList's itemClippingRect's top is set 0.0
 If set to "never", then rows will not fade in/out as they enter/exit the focus region from above.
 
 If set to "always", then rows will always fade in/out as they enter/exit the focus region from above regardless of the itemClippingRect's top value.
-ZoomRowList data model
-A ZoomRowList node should have a single ContentNode as the root node stored in its content field. One child ContentNode should be added to the root node for each row in the list (these nodes can be thought of as row nodes). Each row node should contain one child ContentNode for each item in the row (these nodes can be thought of as item nodes).
 
+ZoomRowList data model
+A ZoomRowList node should have a single ContentNode as the root node stored in its content field. One child ContentNode should be added to the root node for each row in the list (these nodes can be thought of as row nodes ). Each row node should contain one child ContentNode for each item in the row (these nodes can be thought of as item nodes ).
 Row ContentNode data bindings
 Attribute	Type	Description
 title	string	This is used as the string display in the Row Title
+
 Item ContentNode data bindings
 Attribute	Type	Description
 aspectRatio	float	This specifies the aspectRatio for the item. It is used to compute the width from the interpolated row item height for row's where the useDefaultAspectRatio is set to false.
 
 The value should be a floating point value representing the ratio of the Item's width to height. For example, if the Item should have a 16 x 9 aspect ratio, this value specified would by 1.7777778 ( = 16/9).
+
 Item component fields
 Each Item in the ZoomRowList is rendered using a custom XML component specified by the itemComponentName field value. An instance of this component is created for each visible Item in each Row of the ZoomRowList.
-
 If the XML component contains interface fields that match the names shown in the table below, those fields will be updated by the ZoomRoowList node. This allows the XML component to dynamically alter the item's appearance by observing changes to these interface fields.
-
 Note that the fields are updated in the order presented in the table below. Most notably, when the itemContent field is set initially, the other fields will have valid values. This allows the script to be made more efficient by delaying computations until the itemContent field is set in some cases.
-
 Field Name	Field Type	Access Permission	Description
 width	float	READ_ONLY	Set to the width of the Item.
 
@@ -212,19 +182,17 @@ rowHasFocus	Boolean	READ_ONLY	Set to true if the Row that contains this Item has
 
 Only the Item's in one Row of the ZoomRowList will ever have rowHasFocus set to true. If the ZoomRowList does not have focus, all rowHasFocus fields of all Item's will be set to false.
 rowListHasFocus	Boolean	READ_ONLY	Set to true if the ZoomRowList that contains this Item has focus, false otherwise. The rowListHasFocus field of all Item's of the ZoomRowList will always have the same value.
-itemContent	ContentNode	READ_ONLY	Contains the data to be displayed by the row list item. The relationship between data in the ContentNode node and the visual elements of the row list item is determined by the markup and scripts' of the item's XML component. Typically, an observer callback function of the itemContent field is used to update the row list item when the content changes.
+itemContent	ContentNode	READ_ONLY	Contains the data to be displayed by the row list item. The relationship between data in the ContentNode node and the visual elements of the row list item is determined by the markup and scripts' of the item's XML component. Typically, an observer callback function of the itemContent field is used to update the row list item when the content changes.
 focusPercent	float	READ_ONLY	A fractional value that smoothly changes from 0.0 to 1.0 as the Item gains focus and from 1.0 to 0.0 as the item loses focus. This value is typically used in the item's XML component to smoothly change some aspect of the Item's appearance as it moves horizontally in and out of the focus position.
 rowFocusPercent	float	READ_ONLY	A fractional value that smoothly changes from 0.0 to 1.0 as the Item's Row gains focus and from 1.0 to 0.0 as the Item's Row loses focus. This value is typically used in the item's XML component to smoothly change some aspect of the Item's appearance as it's Row moves vertically in and out of the focus position.
 rowHeightPercent	float	READ_ONLY	A fractional value that smoothly changes from 0.0 to 1.0 as the height of item's in the row animate between their unfocused height (rowHeightPercent=0.0) and focused height (rowHeightPercent=1.0) while gaining/losing focus. This value is typically used in the item's XML component to smoothly change some aspect of the Item's appearance as it's Row moves vertically in and out of the focus position.
 
 This field will have the same value as rowFocusPercent unless the remainZoomedAboveFocus field is set to "never" or if the zoomed and un-zoomed height of a row are equal.
+
 Row decoration component fields
 If a RowDecorationComponentName is specified, an instance of this component is created as a child of each visible row's ZoomRowItem.
-
 If the XML component contains interface fields that match the names shown in the table below, those fields will be updated by the ZoomRoowList node. This allows the XML component to dynamically alter the row decoration's appearance by observing changes to these interface fields.
-
 Note that the fields are updated in the order presented in the table below. Most notably, when the itemContent field is set initially, the other fields will have valid values. This allows the script to be made more efficient by delaying computations until the itemContent field is set in some cases.
-
 Field Name	Field Type	Access Permisson	Description
 width	float	READ_ONLY	Set to the width of the row as specified in the ZoomRowList's rowWidth field.
 height	float	READ_ONLY	Set to the height of the ZoomRowItem.
@@ -235,6 +203,7 @@ rowFocusPercent	float	READ_ONLY	A fractional value that smoothly changes from 0.
 rowHeightPercent	float	READ_ONLY	A fractional value that smoothly changes from 0.0 to 1.0 as the height of item's in the row animate between their unfocused height (rowHeightPercent=0.0) and focused height (rowHeightPercent=1.0) while gaining/losing focus. This value is typically used in the item's XML component to smoothly change some aspect of the Item's appearance as it's Row moves vertically in and out of the focus position.
 
 This field will have the same value as rowFocusPercent unless the remainZoomedAboveFocus field is set to "never" or if the zoomed and unzoomed height of a row are equal.
-drawBeforeItems	Boolean	false	Write-only. Controls whether the row decoration component is drawn before (true) or after the items (false) in a row. This allows a background image to be drawn behind the tiles in a row.
+drawBeforeItems	Boolean	false	Write-only . Controls whether the row decoration component is drawn before (true) or after the items (false) in a row. This allows a background image to be drawn behind the tiles in a row.
+
 Sample app
 zoomRowListDefaultLayoutTest is a sample app demonstrating the ZoomRowList in action.

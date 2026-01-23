@@ -1,39 +1,31 @@
 roImageMetadata
 The roImageMetadata component provides developers access to image file metadata included in many .jpg EXIF headers.
-
 roImageMetadata currently only works with local file Urls.
-
 This object is created without any arguments:
-
 CreateObject("roImageMetadata")
-
 EXIF Background
 Each EXIF tag represents one piece of metadata. Each tag is uniquely identified by a tag number and the IFD in which it was found. All the tags are grouped into a small set of IFDs (Image File Directory). The EXIF specification describes 5 IFDs:
-
 Number	Name	Notes
 0	image	Tags related to image structure and some additional basic information
 1	thumbnail	Tags related to the thumbnail image structure
 2	exif	Tags related to non-image structure data. I know this is an odd name. Usually stuff like ApertureValue that a digital camera would write
 3	gps	Tags related to GPS
-4	interoperability	
+4	interoperability
+
 The associative array returned by GetRawExif() function on the roImageMetadata component is organized as a tree where the first level consists of the IFDs, the second level is the tag name, and the third (leaf) level is tag associative array.
-
 Each tag associative array contains the following values:
-
 Number	Name	Notes
 Tag	Integer	The tag number
 Value	String	This is a string representation of the data regardless of the underlying data type
+
 Tag values can be one of several types (string, bytes, rational, enum, etc.) We are using a that converts most values to a string. In the future or time permitting, we may add more values to the tag aa to give access to raw bytes.
-
 The best way to illustrate how the EXIF data is accessed is through some concrete examples using the data in the reference section below. Assume that the associative array aa contains the results of the GetRawExif() function.
-
 To get the camera model: aa.image.model.value
 To get the gps latitude: aa.gps.GPSLatitude.value
+
 Reference
 For reference here are all the fields from an image taken from my camera (with the addition of GPS attributes I added using Picasa).
-
 The format is IFD#, Tag#[Tag Name], Data Format, Value. The Value is a string representation of data.
-
 0, 272[ Model], ASCII,Canon PowerShot SD700 IS
 0, 274[ Orientation], Short,top - left
 0, 283[ YResolution], Rational,180.00
@@ -87,8 +79,8 @@ The format is IFD#, Tag#[Tag Name], Data Format, Value. The Value is a string re
 4, 2[ InteroperabilityVersion], Undefined,0100
 4, 4097[ RelatedImageWidth], Short,2816
 4, 4098[ RelatedImageLength], Short,2112
-Example
 
+Example
 REM printAA() is from generalUtils.brs in our sample apps
 REM and used to print an associative Array
 Sub SaveExifImage(filename As String)
@@ -125,5 +117,6 @@ Sub SaveExifImage(filename As String)
         thumbnail.bytes.Writefile(tmp_img)
     end if
 End Sub
+
 Supported interfaces
 ifImageMetadata

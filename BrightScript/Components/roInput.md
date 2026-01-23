@@ -1,24 +1,17 @@
 roInput
-An roInput object can be used to receive events sent from a network client using the External Control Protocol (ECP), as described in External Control API.
-
+An roInput object can be used to receive events sent from a network client using the External Control Protocol (ECP), as described in External Control API .
 The supports_input_launch manifest flag must be set for channels to accept deep linking parameters when already running. This flag enables deep linking into content without relaunching the app. See the Deep Linking sample app for how to use roInput to handle deep links into content while the app is already running.
-
 Refer to External Control Service Commands for information about the ECP input command.
-
 This object is created without any arguments:
-
 CreateObject("roInput")
-
 Example
-
 The following prints information received from an external device in JSON format. If the external device sends the following input command:
-
 curl -d '' '<roku_target_device>:8060/input?my_event=My%20Test&x=100&y=200&action=start'
+
 The following will be printed:
-
 {"action":"start","my_event":"My Test","x":"100","y":"200"}
-roInput Example
 
+roInput Example
 msgPort = CreateObject("roMessagePort")
 
 input = CreateObject("roInput")
@@ -34,7 +27,9 @@ while true
     end if
   end if
 end while
+
 Supported interfaces
 ifInput
+
 Supported events
 roInputEvent

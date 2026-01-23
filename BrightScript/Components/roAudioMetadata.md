@@ -1,16 +1,10 @@
 roAudioMetadata
 The roAudioMetadata component provides developers access to audio file metadata included in many audio files. This should enable some audiofiles to deliver the information needed to fill out an roSpringboard screen without passing the info in a separate xml feed. roAudioMetadata currently only works with local file URLs.
-
 The component requires the use of a dynamically loaded library that is not part of the initially booted image. Therefore, an entry must be added to the manifest of any applications that use the roAudioMetadata component so it can be loaded when the app is launched. Here's the manifest entry:
-
 requires_audiometadata=1
-
 This object is created without any arguments:
-
 CreateObject("roAudioMetadata")
-
 Example
-
 REM printAA() is from generalUtils.brs in our sample apps
 REM and used to print an associative Array
 
@@ -45,5 +39,6 @@ Sub SaveCoverArtFile(filename As String)
         thumbnail.bytes.Writefile(tmp_img)
     end if
 End Sub
+
 Supported interfaces
 ifAudioMetadata
