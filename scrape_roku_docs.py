@@ -36,7 +36,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://developer.roku.com"
-START_URL = f"{BASE_URL}/docs/references/references-overview.md"
+REFERENCE_START_URL = f"{BASE_URL}/docs/references/references-overview.md"
+DEVELOPER_START_URL = f"{BASE_URL}/docs/developer-program/getting-started/roku-dev-prog.md"
 
 # URL to directory mapping
 URL_TO_DIR_MAP = {
@@ -111,13 +112,21 @@ class RokuDocScraper:
             logger.warning(f"Timeout waiting for element: {value}")
             return None
             
-    def extract_navigation_links(self) -> List[Dict[str, str]]:
+    def extract_navigation_links(self, mode: str = 'references') -> List[Dict[str, str]]:
         """
         Extract all documentation links from the navigation menu.
+        Args:
+            mode: 'references' to extract reference docs, 'developer' to extract developer docs
         Returns a list of dictionaries with 'url' and 'title' keys.
         """
-        logger.info("Extracting navigation links...")
+        logger.info(f"Extracting navigation links for mode: {mode}...")
         links = []
+        
+        # Determine which URL pattern to look for
+        if mode == 'developer':
+            url_pattern = '/docs/developer-program/'
+        else:
+            url_pattern = '/docs/references/'
         
         try:
             # Wait for navigation menu to load
@@ -138,7 +147,7 @@ class RokuDocScraper:
             try:
                 WebDriverWait(self.driver, 15).until(
                     lambda d: len([el for el in d.find_elements(By.CSS_SELECTOR, "a.doc-nav-subcategory-link") 
-                                  if el.get_attribute('href') and '/docs/references/' in el.get_attribute('href')]) > 0
+                                  if el.get_attribute('href') and url_pattern in el.get_attribute('href')]) > 0
                 )
             except TimeoutException:
                 logger.warning("Timeout waiting for links with valid hrefs")
@@ -211,7 +220,7 @@ class RokuDocScraper:
                 logger.debug("Trying alternative selector for links")
                 link_elements = nav_container.find_elements(
                     By.CSS_SELECTOR,
-                    "a[href*='/docs/references/']"
+                    f"a[href*='{url_pattern}']"
                 )
             
             logger.info(f"Found {len(link_elements)} documentation links")
@@ -224,7 +233,7 @@ class RokuDocScraper:
                     try:
                         href = link_elem.get_attribute('href')
                         title = link_elem.text.strip()[:50] if link_elem.text else 'NO TEXT'
-                        is_valid = href and '/docs/references/' in href
+                        is_valid = href and url_pattern in href
                         if is_valid:
                             valid_count += 1
                         logger.info(f"  Link {i+1}: href='{href}', title='{title}', valid={is_valid}")
@@ -261,15 +270,15 @@ class RokuDocScraper:
                     # Clean up the href
                     href = href.strip()
                     
-                    # Check if this is a documentation reference link
-                    if '/docs/references/' not in href:
+                    # Check if this is a documentation link matching our mode
+                    if url_pattern not in href:
                         # Log first few non-matching links for debugging
                         if len(seen_urls) < 3:
-                            logger.debug(f"Link '{title}' href doesn't contain '/docs/references/': {href}")
+                            logger.debug(f"Link '{title}' href doesn't contain '{url_pattern}': {href}")
                         continue
                     
                     # Extract the path part (handle both relative and absolute URLs)
-                    idx = href.find('/docs/references/')
+                    idx = href.find(url_pattern)
                     path = href[idx:]
                     
                     # Remove query params and fragments
@@ -286,8 +295,8 @@ class RokuDocScraper:
                     full_url = urljoin(BASE_URL, path)
                     
                     # Double-check it's a valid documentation URL
-                    if '/docs/references/' not in full_url:
-                        logger.debug(f"Constructed URL doesn't contain '/docs/references/': {full_url}")
+                    if url_pattern not in full_url:
+                        logger.debug(f"Constructed URL doesn't contain '{url_pattern}': {full_url}")
                         continue
                     
                     # Avoid duplicates
@@ -316,6 +325,41 @@ class RokuDocScraper:
         parsed = urlparse(url)
         path_parts = [p for p in parsed.path.strip('/').split('/') if p]
         
+        # Check if this is a developer-program URL
+        if 'docs' in path_parts and 'developer-program' in path_parts:
+            # Handle developer-program URLs (flattened structure)
+            dev_idx = path_parts.index('developer-program')
+            relevant_parts = path_parts[dev_idx + 1:]  # Skip 'developer-program'
+            
+            if not relevant_parts:
+                logger.warning(f"Could not parse developer-program URL: {url}")
+                return None, None
+            
+            # Get the filename (last part, should end with .md)
+            filename = relevant_parts[-1]
+            if not filename.endswith('.md'):
+                filename += '.md'
+            
+            # Build directory path: Developer/[subdirs...]
+            dir_parts = [self.base_dir, 'Developer']
+            
+            # Add subdirectories (everything except the filename)
+            if len(relevant_parts) > 1:
+                for subdir in relevant_parts[:-1]:
+                    # Convert kebab-case to title case for directory names
+                    dir_name = subdir.replace('-', ' ').title()
+                    dir_parts.append(dir_name)
+            
+            # Ensure filename always has lowercase .md extension
+            if filename.endswith('.MD') or filename.endswith('.Md') or filename.endswith('.mD'):
+                filename = filename.rsplit('.', 1)[0] + '.md'
+            elif not filename.endswith('.md'):
+                filename = filename + '.md'
+            
+            directory = Path(*dir_parts)
+            return directory, filename
+        
+        # Handle references URLs (BrightScript and SceneGraph)
         # Extract the relevant parts (skip 'docs' and 'references')
         if 'docs' in path_parts and 'references' in path_parts:
             ref_idx = path_parts.index('references')
@@ -347,8 +391,8 @@ class RokuDocScraper:
             logger.warning(f"Unknown category in URL: {url}")
             return self.base_dir, filename
             
-        # Build directory path
-        dir_parts = [self.base_dir, base_dir_name]
+        # Build directory path - prepend 'Reference' for reference docs
+        dir_parts = [self.base_dir, 'Reference', base_dir_name]
         
         if base_dir_name == 'BrightScript':
             if category:
@@ -698,20 +742,30 @@ class RokuDocScraper:
             logger.error(f"Error saving {filepath}: {e}")
             return False
             
-    def scrape_all(self, max_retries: int = 3, delay: float = 2.0):
+    def scrape_all(self, max_retries: int = 3, delay: float = 2.0, mode: str = 'references'):
         """
         Main scraping method. Extracts all links and scrapes each page.
+        Args:
+            max_retries: Maximum number of retries for failed pages
+            delay: Delay between requests in seconds
+            mode: 'references' to scrape reference docs, 'developer' to scrape developer docs
         """
         try:
             self.setup_driver()
             
+            # Determine start URL based on mode
+            if mode == 'developer':
+                start_url = DEVELOPER_START_URL
+            else:
+                start_url = REFERENCE_START_URL
+            
             # Navigate to start page
-            logger.info(f"Navigating to {START_URL}")
-            self.driver.get(START_URL)
+            logger.info(f"Navigating to {start_url}")
+            self.driver.get(start_url)
             time.sleep(3)  # Wait for page to fully load
             
             # Extract all navigation links
-            links = self.extract_navigation_links()
+            links = self.extract_navigation_links(mode=mode)
             
             if not links:
                 logger.error("No links found. Exiting.")
@@ -782,6 +836,8 @@ def main():
     parser.add_argument('--skip-existing', action='store_true', help='Skip files that already exist')
     parser.add_argument('--delay', type=float, default=2.0, help='Delay between requests in seconds (default: 2.0)')
     parser.add_argument('--max-retries', type=int, default=3, help='Maximum retries for failed pages (default: 3)')
+    parser.add_argument('--mode', choices=['references', 'developer'], default='references',
+                       help='Scraping mode: references (default) or developer')
     
     args = parser.parse_args()
     
@@ -793,7 +849,8 @@ def main():
     
     scraper.scrape_all(
         max_retries=args.max_retries,
-        delay=args.delay
+        delay=args.delay,
+        mode=args.mode
     )
 
 
