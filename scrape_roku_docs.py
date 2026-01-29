@@ -38,6 +38,8 @@ logger = logging.getLogger(__name__)
 BASE_URL = "https://developer.roku.com"
 REFERENCE_START_URL = f"{BASE_URL}/docs/references/references-overview.md"
 DEVELOPER_START_URL = f"{BASE_URL}/docs/developer-program/getting-started/roku-dev-prog.md"
+SPECS_START_URL = f"{BASE_URL}/docs/specs/specs-overview.md"
+FEATURES_START_URL = f"{BASE_URL}/docs/features/features-overview.md"
 
 # URL to directory mapping
 URL_TO_DIR_MAP = {
@@ -116,7 +118,8 @@ class RokuDocScraper:
         """
         Extract all documentation links from the navigation menu.
         Args:
-            mode: 'references' to extract reference docs, 'developer' to extract developer docs
+            mode: 'references' to extract reference docs, 'developer' to extract developer docs,
+                  'specs' to extract specifications docs, 'features' to extract features docs
         Returns a list of dictionaries with 'url' and 'title' keys.
         """
         logger.info(f"Extracting navigation links for mode: {mode}...")
@@ -125,6 +128,10 @@ class RokuDocScraper:
         # Determine which URL pattern to look for
         if mode == 'developer':
             url_pattern = '/docs/developer-program/'
+        elif mode == 'specs':
+            url_pattern = '/docs/specs/'
+        elif mode == 'features':
+            url_pattern = '/docs/features/'
         else:
             url_pattern = '/docs/references/'
         
@@ -324,6 +331,50 @@ class RokuDocScraper:
         """
         parsed = urlparse(url)
         path_parts = [p for p in parsed.path.strip('/').split('/') if p]
+        
+        # Check if this is a specs URL
+        if 'docs' in path_parts and 'specs' in path_parts:
+            specs_idx = path_parts.index('specs')
+            relevant_parts = path_parts[specs_idx + 1:]
+            if not relevant_parts:
+                logger.warning(f"Could not parse specs URL: {url}")
+                return None, None
+            filename = relevant_parts[-1]
+            if not filename.endswith('.md'):
+                filename += '.md'
+            dir_parts = [self.base_dir, 'Specifications']
+            if len(relevant_parts) > 1:
+                for subdir in relevant_parts[:-1]:
+                    dir_name = subdir.replace('-', ' ').title()
+                    dir_parts.append(dir_name)
+            if filename.endswith('.MD') or filename.endswith('.Md') or filename.endswith('.mD'):
+                filename = filename.rsplit('.', 1)[0] + '.md'
+            elif not filename.endswith('.md'):
+                filename = filename + '.md'
+            directory = Path(*dir_parts)
+            return directory, filename
+        
+        # Check if this is a features URL
+        if 'docs' in path_parts and 'features' in path_parts:
+            features_idx = path_parts.index('features')
+            relevant_parts = path_parts[features_idx + 1:]
+            if not relevant_parts:
+                logger.warning(f"Could not parse features URL: {url}")
+                return None, None
+            filename = relevant_parts[-1]
+            if not filename.endswith('.md'):
+                filename += '.md'
+            dir_parts = [self.base_dir, 'Features']
+            if len(relevant_parts) > 1:
+                for subdir in relevant_parts[:-1]:
+                    dir_name = subdir.replace('-', ' ').title()
+                    dir_parts.append(dir_name)
+            if filename.endswith('.MD') or filename.endswith('.Md') or filename.endswith('.mD'):
+                filename = filename.rsplit('.', 1)[0] + '.md'
+            elif not filename.endswith('.md'):
+                filename = filename + '.md'
+            directory = Path(*dir_parts)
+            return directory, filename
         
         # Check if this is a developer-program URL
         if 'docs' in path_parts and 'developer-program' in path_parts:
@@ -748,7 +799,8 @@ class RokuDocScraper:
         Args:
             max_retries: Maximum number of retries for failed pages
             delay: Delay between requests in seconds
-            mode: 'references' to scrape reference docs, 'developer' to scrape developer docs
+            mode: 'references' to scrape reference docs, 'developer' to scrape developer docs,
+                  'specs' to scrape specifications docs, 'features' to scrape features docs
         """
         try:
             self.setup_driver()
@@ -756,6 +808,10 @@ class RokuDocScraper:
             # Determine start URL based on mode
             if mode == 'developer':
                 start_url = DEVELOPER_START_URL
+            elif mode == 'specs':
+                start_url = SPECS_START_URL
+            elif mode == 'features':
+                start_url = FEATURES_START_URL
             else:
                 start_url = REFERENCE_START_URL
             
@@ -836,8 +892,8 @@ def main():
     parser.add_argument('--skip-existing', action='store_true', help='Skip files that already exist')
     parser.add_argument('--delay', type=float, default=2.0, help='Delay between requests in seconds (default: 2.0)')
     parser.add_argument('--max-retries', type=int, default=3, help='Maximum retries for failed pages (default: 3)')
-    parser.add_argument('--mode', choices=['references', 'developer'], default='references',
-                       help='Scraping mode: references (default) or developer')
+    parser.add_argument('--mode', choices=['references', 'developer', 'specs', 'features'], default='references',
+                       help='Scraping mode: references (default), developer, specs, or features')
     
     args = parser.parse_args()
     

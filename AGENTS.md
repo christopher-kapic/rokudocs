@@ -24,10 +24,13 @@ Options:
 - `--skip-existing`: Skip files that already exist
 - `--delay SECONDS`: Delay between requests (default: 2.0)
 - `--max-retries N`: Maximum retries for failed pages (default: 3)
+- `--mode MODE`: Scraping mode: `references` (default), `developer`, `specs`, or `features`
 
 Example:
 ```bash
 python scrape_roku_docs.py --skip-existing --delay 1.5
+python scrape_roku_docs.py --mode specs
+python scrape_roku_docs.py --mode features
 ```
 
 ## Code Style Guidelines
@@ -102,18 +105,15 @@ python scrape_roku_docs.py --skip-existing --delay 1.5
 
 ```
 /
-├── BrightScript/
-│   ├── Components/   # BrightScript component docs
-│   ├── Interfaces/   # BrightScript interface docs
-│   ├── Language/     # BrightScript language docs
-│   └── Events/       # BrightScript events
-├── SceneGraph/
-│   ├── Node.md       # Base Node documentation
-│   ├── Scene.md      # Scene documentation
-│   └── [Subdirectories]/  # Node types (Animation Nodes, Control Nodes, etc.)
-├── scrape_roku_docs.py   # Main scraper
-├── requirements.txt       # Python dependencies
-└── env/                   # Virtual environment
+├── Developer/        # Developer program docs (--mode developer)
+├── Reference/        # API reference docs (--mode references)
+│   ├── BrightScript/
+│   └── SceneGraph/
+├── Specifications/   # Specs docs (--mode specs)
+├── Features/         # Features docs (--mode features)
+├── scrape_roku_docs.py
+├── requirements.txt
+└── env/
 ```
 
 ## Important Notes
